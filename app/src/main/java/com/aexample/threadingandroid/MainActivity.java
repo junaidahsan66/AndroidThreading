@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         binding.start.setOnClickListener(v -> {
-            enableProgress(true);
+
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
