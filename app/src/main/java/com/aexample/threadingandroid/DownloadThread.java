@@ -19,7 +19,7 @@ public class DownloadThread extends Thread {
     public void run() {
         if (singlecars.equals(""))
             executeCode();
-         else
+        else
             exucuteInMUltipleThread();
 
     }
