@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.aexample.threadingandroid.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "jun";
     ActivityMainBinding binding;
+    DownloadThread thread;
+
     Handler handler;
 
     @Override
@@ -29,18 +32,24 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        thread = new DownloadThread();
+        thread.start();
+
 
         binding.start.setOnClickListener(v -> {
-            enableProgress(true);
+            for (String car :CarsData.cars
+                 ) {
 
-            for (String car:CarsData.cars) {
-                DownloadThread thread = new DownloadThread(car);
-                thread.start();
+                /**
+                 * Return a new Message instance from the global pool. Allows us to
+                 * avoid allocating new objects in many cases.
+                 */
+                Message message = Message.obtain();
+                message.obj=car;
+                thread.nDownHandler.sendMessage(message);
+
             }
-
-//
-//            DownloadThread thread = new DownloadThread(CarsData.cars);
-//            thread.start();
+            enableProgress(true);
 
         });
         binding.end.setOnClickListener(v -> {
