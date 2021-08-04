@@ -28,46 +28,20 @@ public class MainActivity extends AppCompatActivity {
                 binding.textView.setText(msg.getData().getString("data"));
             }
         };
-//        binding.textView.setText(R.string.lorem);
 
 
         binding.start.setOnClickListener(v -> {
             enableProgress(true);
-            Log.d(TAG, "onCreate: "+Thread.currentThread().getName());
 
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Log.d(TAG, "onCreate: "+Thread.currentThread().getName());
+            for (String car:CarsData.cars) {
+                DownloadThread thread = new DownloadThread(car);
+                thread.start();
+            }
 
-                        Thread.sleep(4000);
-                        Log.d(TAG, "COmplete: "+Thread.currentThread().getName());
-                        Log.d(TAG, "DONE");
-                        Message message = new Message();
-                        Bundle bundle=new Bundle();
-                        bundle.putString("data","AAAAAAAaa");
-                        message.setData(bundle);
-                        handler.sendMessage(message);
-                        Thread.sleep(4000);
+//
+//            DownloadThread thread = new DownloadThread(CarsData.cars);
+//            thread.start();
 
-                        Message message2= new Message();
-                        Bundle bundle2=new Bundle();
-                        bundle2.putString("data","BBBB");
-                        message2.setData(bundle2);
-                        handler.sendMessage(message2);
-
-                        Thread.sleep(4000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-
-            Thread thread = new Thread(runnable);
-            thread.start();
-
-            scrollToEnd();
         });
         binding.end.setOnClickListener(v -> {
             enableProgress(false);
