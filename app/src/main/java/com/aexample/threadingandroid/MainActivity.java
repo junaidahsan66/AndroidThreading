@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             };
 
             Thread thread = new Thread(runnable);
-            thread.setName("back thread");
+            thread.run();
             thread.start();
 
             scrollToEnd();
